@@ -1,0 +1,31 @@
+# Server settings
+server:
+  port: 8083
+
+# Eureka client settings
+eureka:
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
+
+
+# Spring application settings
+spring:
+  application:
+    name: API-GATEWAY
+ # Spring Cloud Gateway settings
+  cloud:
+   gateway:
+    routes:
+     - id: post-service-route
+       uri: lb://POST-SERIVCE # Load balanced URI of the Post service
+       predicates:
+        - Path=api/posts/**
+     - id: comment-service-route
+       uri: lb://COMMENT-SERVICE # Load balanced URI of the Comment service
+       predicates:
+        - Path=api/comments/**
